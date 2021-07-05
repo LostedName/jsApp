@@ -7,21 +7,8 @@ app.use(express.json());
 app.listen(PORT, ()=> console.log(`Server is started on port: ${PORT}`));
 
 app.post('/users',async (req,res)=>{
-    let status = false;
-    console.log("Status before" + status);
-    status = await CreateUser(req.body);
-    console.log("Status after" + status);
-    if (status == true){
-        res.status(200).send("Success.");
-    }
-    else{
-        res.status(500).send("An error is occured. Try later.");
-    }
-});
-
-async function CreateUser({login,password,photo}){
+    let {login,password,photo} = req.body;
     let reg_date = new Date().toString();
-    let isErrOccur = false;
     try{
         password = await bcrypt.hash(password, 10);
         User.create({
@@ -29,21 +16,20 @@ async function CreateUser({login,password,photo}){
             password,
             reg_date,
             photo
-        }).then(res=>{
-            console.log(res);
+        }).then(responce=>{
+            console.log(responce);
+            res.status(200).send("Success.");
         })
         .catch((err)=>{
             console.log(err);
-            console.log("KABOOOOOOOOOOOOOOO");
-            isErrOccur = true;
+            res.status(500).send("An error is occured. Try later.");
         });
     }
     catch{
-        isErrOccur = true;
     }
-    console.log("Is error occur" + isErrOccur);
-    return (isErrOccur == true) ? false : true;
-}
+});
+
+
 
 
     
