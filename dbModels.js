@@ -67,14 +67,3 @@ import {dbName,dbUser,dbPass} from './settings.js'
   Run.belongsTo(User);
 
 export {User,Run}
-
-
-  // User.create({
-  //     login: "Tomy",
-  //     password: "12345",
-  //     reg_date:  Date().toString(),
-  //     photo: "photo"
-  //   }).then(res=>{
-  //     console.log(res);
-  //   }).catch(err=>console.log(err));
-  
