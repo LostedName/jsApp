@@ -21,7 +21,7 @@ class RunController{
         res.status(400).json("Run add error");
         }
     }
-    async getRuns(req,res){
+    async getAllRuns(req,res){
       try{
           const user_id = req.user.id;
           const runs = await Run.findAll({where:{user_id}});
@@ -33,10 +33,28 @@ class RunController{
         }
     }
     async putRun(req,res){
-        
+        try{
+            res.status(200).json({message:"Изменение произошло успешно"});
+
+        }catch(e){
+
+        console.log(e);
+        res.status(400).json({message:"Произошла ошибка"});
+        }
     }
     async deleteRun(req,res){
-        
+        try{
+            const {id} = req.body;
+            const findRun = await Run.findOne({where:{id}});
+            if (!findRun){
+            return res.status(400).json({message:`Пробежки с id = ${id} не существует`});
+            }
+            await Run.destroy({where:{id}});
+            res.status(200).json({message:"Удаление произошло успешно"});
+        }catch(e){
+            console.log(e);
+            res.status(400).json({message:"Произошла ошибка"});
+        }
     }
 }
 

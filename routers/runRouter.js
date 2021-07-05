@@ -6,13 +6,9 @@ const runRouter = new express.Router();
 const controller = new RunController();
 runRouter.route('/').all(authMiddleware)
 .post([isNumber,timeFormat],controller.postRun)
-.get(controller.getRuns)
-.put((req,res)=>{
-    res.status(200).json({message:"Run put"});
-})
-.delete((req,res)=>{
-    res.status(200).json({message:"Run delete"});
-});
+.get(controller.getAllRuns)
+.put(controller.putRun)
+.delete(controller.deleteRun);
 runRouter.get('/report',(req,res)=>{
     res.status(200).json({message:"Week Report"});
 });
