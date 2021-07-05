@@ -1,6 +1,15 @@
 import {User} from './dbModels.js'
 import bcrypt from 'bcrypt'
 import validator from 'express-validator'
+import jwt from 'jsonwebtoken'
+import {secretKey} from './settings.js'
+const generateAccessToken = (id)=>{
+const payloads = {
+    id
+};
+return jwt.sign(payloads,secretKey, {expiresIn:"1h"});
+};
+
 const {validationResult} = validator;
 class AuthController{
     async registration(req,res){
@@ -37,14 +46,27 @@ class AuthController{
     async login(req,res){
         try{
         const {login, password} = req.body;
-        }catch(e){
+        const user = await User.findOne({where: {login}});
+        if (!user){
+           return res.status(400).json({message:"Пользователь с таким именем не зарегистрирован"});
+        }
+        const {login:dbLogin,password:dbPassword} = user;
+        const isCorrectPass = await bcrypt.compare(password,dbPassword);
+        if (!isCorrectPass)
+        return res.status(400).json({message:"Неверный пароль"});    
+
+        const token = generateAccessToken(user.id);
+        res.status(200).json({token});    
+
+    }catch(e){
             console.log(e);
-            res.status(400).json({message:"Login error"});
         }
     }
     async getUsers(req,res){
         try{
-            res.json("server work right");
+            const users = await User.findAll();
+            console.log(req.user.id);
+            res.status(200).json(users);
         }catch(e){
             console.log(e);
             
