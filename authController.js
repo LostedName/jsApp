@@ -19,7 +19,8 @@ class AuthController{
             return res.status(400).json({message:"Ошибка при регистрации",errors});
         }
         let {login,password,photo} = req.body;
-        const reg_date = new Date().toString();
+        const dateParts = new Date().toString().split(" ");
+        const reg_date = `${dateParts[0]} ${dateParts[1]} ${dateParts[2]} ${dateParts[3]}`;
         const candidate = await User.findOne({where:{login:login}})
         if (candidate){
             return res.status(400).json({message:"Пользователь с таким именем уже существует"});
