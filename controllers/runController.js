@@ -21,11 +21,18 @@ class RunController{
         res.status(400).json("Run add error");
         }
     }
-    async getAllRuns(req,res){
+    async getRun(req,res){
       try{
           const user_id = req.user.id;
-          const runs = await Run.findAll({where:{user_id}});
-          res.status(200).json({message:runs});
+          const {id} = req.body;
+          let runs;
+          if (id){
+            runs = await Run.findOne({where:{user_id,id}});
+            }
+          else{
+            runs = await Run.findAll({where:{user_id}});
+            }
+          res.status(200).json(runs);
         }catch(e){
             console.log(e);
           res.status(500).json({message:"При работе сервера возникли неполадки"});
