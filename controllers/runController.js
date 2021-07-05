@@ -1,4 +1,4 @@
-import {Run} from './dbModels.js'
+import {Run} from '../dbModels.js'
 class RunController{
     async postRun(req,res){
         try{

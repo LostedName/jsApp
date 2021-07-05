@@ -1,8 +1,8 @@
 import express from 'express'
 import {PORT} from './settings.js'
 import {User,Run} from './dbModels.js'
-import {router} from './authRouter.js'
-import {runRouter} from './runRouter.js'
+import {router} from './routers/authRouter.js'
+import {runRouter} from './routers/runRouter.js'
 const app = express();
 app.use(express.json());
 app.use('/auth',router);

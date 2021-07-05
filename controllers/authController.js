@@ -1,8 +1,8 @@
-import {User} from './dbModels.js'
+import {User} from '../dbModels.js'
 import bcrypt from 'bcrypt'
 import validator from 'express-validator'
 import jwt from 'jsonwebtoken'
-import {secretKey} from './settings.js'
+import {secretKey} from '../settings.js'
 const generateAccessToken = (id)=>{
 const payloads = {
     id

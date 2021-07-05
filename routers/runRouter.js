@@ -1,7 +1,7 @@
 import express from 'express';
-import {authMiddleware} from './middlewares/authMiddleware.js';
-import {isNumber,timeFormat} from './middlewares/runMiddleware.js'
-import { RunController } from './runController.js';
+import {authMiddleware} from '../middlewares/authMiddleware.js';
+import {isNumber,timeFormat} from '../middlewares/runMiddleware.js'
+import { RunController } from '../controllers/runController.js';
 const runRouter = new express.Router();
 const controller = new RunController();
 runRouter.route('/').all(authMiddleware)
