@@ -18,8 +18,9 @@ import {dbName,dbUser,dbPass} from './settings.js'
       },
       login:{
       type: sequelize.STRING,
-      allowNull:false
-    },
+      allowNull:false,
+      unique: true
+      },
       password:{
       type: sequelize.STRING,
       allowNull:false
