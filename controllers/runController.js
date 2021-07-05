@@ -34,7 +34,9 @@ class RunController{
     }
     async putRun(req,res){
         try{
-            res.status(200).json({message:"Изменение произошло успешно"});
+            const {id,distance,time,date} = req.body;
+            await Run.update({distance,time,date},{where:{id}});
+            res.status(200).json({message:"Пробежка была успешно изменена"});
 
         }catch(e){
 
