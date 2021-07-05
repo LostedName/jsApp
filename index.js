@@ -14,19 +14,28 @@ app.use(express.json());
 // app.route('/')
 // .get((req,res)=>{})
 // .post((req,res)=>{});
-app.use(auth);
-app.get('/',(req,res)=>{
+app.use('/users',debug);
+app.route('/').all(auth)
+.get((req,res)=>{
     res.send("You use Get");
-});
-app.post('/',log,log,log,log,auth,(req,res)=>{
+})
+.post((req,res)=>{
     res.send("You use Post");
 });
+app.post('/users',(req,res)=>{
+    res.send("You use Post users");
+});
 function auth(req,res,next){
-    console.log("auth");
     next();
+    console.log("auth");
 }
 function log(req,res,next){
 console.log("log");
     next();
 }
+function debug(req,res,next){
+    console.log("debug");
+    next('route');
+    console.log("NEXT DEBUG");
+    }
 app.listen(PORT, ()=> console.log(`Server is started on port: ${PORT}`));
