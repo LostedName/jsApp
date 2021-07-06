@@ -9,6 +9,7 @@ app.use('/auth',router);
 app.use('/run',runRouter);
 const start = () => {
     try{
+        
         app.listen(PORT, ()=> console.log(`Server is started on port: ${PORT}`));
     }catch(e){
         console.log(e);

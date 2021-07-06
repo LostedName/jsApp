@@ -7,9 +7,7 @@ const controller = new RunController();
 runRouter.route('/').all(authMiddleware)
 .post([runMidlleware.isNumber,runMidlleware.timeFormat],controller.postRun)
 .get(controller.getRun)
-.put([runMidlleware.putDataVerify,runMidlleware.isNumber,runMidlleware.timeFormat],controller.putRun)
+.put([runMidlleware.putDataVerify,runMidlleware.isNumber,runMidlleware.timeFormat,runMidlleware.dateFormat],controller.putRun)
 .delete(controller.deleteRun);
-runRouter.get('/report',(req,res)=>{
-    res.status(200).json({message:"Week Report"});
-});
+runRouter.get('/report',authMiddleware,controller.runReport);
 export {runRouter};

@@ -17,6 +17,15 @@ function timeFormat(req,res,next){
     next();
 }
 
+function dateFormat(req,res,next){
+    const {date} = req.body;
+    const regex = /^[0-9]{2}[.][0-9]{2}[.][0-9]{4}$/;
+    if (!regex.test(date))
+    {
+        return res.status(400).json({message:"Не правильный формат даты(mm.dd.yyyy)"});
+    }
+    next();
+}
 async function putDataVerify(req,res,next){
     try{
 
@@ -45,4 +54,4 @@ async function putDataVerify(req,res,next){
 }
 
 }
-export {isNumber,timeFormat, putDataVerify};
+export {isNumber, timeFormat, dateFormat, putDataVerify};
