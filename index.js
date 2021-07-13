@@ -1,6 +1,5 @@
 import express from 'express'
 import {PORT} from './settings.js'
-import {User,Run} from './app/dbModels.js'
 import {router} from './app/routes/authRouter.js'
 import {runRouter} from './app/routes/runRouter.js'
 import testRouter from './app/routes/testRoute.js'

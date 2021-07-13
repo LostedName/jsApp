@@ -1,5 +1,5 @@
 
-import {Run} from '../dbModels.js'
+import db from '../services/db.js'
 function isNumber(req,res,next){
     const {distance} = req.body;
     if(isNaN(distance)){
@@ -28,7 +28,7 @@ function dateFormat(req,res,next){
 }
 async function putDataVerify(req,res,next){
     try{
-
+        const models = db.getModels();
         let {id,distance,time,date} = req.body;
         if (!id){
             return res.status(400).json({message:"id пробежки не указан"});
@@ -36,7 +36,7 @@ async function putDataVerify(req,res,next){
         if (!distance && !time && !date){
         return res.status(400).json({message:"Не указаны данные для изменения"});
         }
-        const findRun = await Run.findOne({where:{id}});
+        const findRun = await models.Run.findOne({where:{id}});
             if (!findRun){
                 return res.status(400).json({message:`Пробежки с id = ${id} не существует`});
             }
