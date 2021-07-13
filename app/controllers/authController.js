@@ -1,25 +1,25 @@
-import {User} from '../dbModels.js'
 import bcrypt from 'bcrypt'
 import validator from 'express-validator'
 import {secretKey} from '../../settings.js'
 import {generateToken} from '../services/jwt.js'
-
+import db from '../services/db.js';
 const {validationResult} = validator;
 class AuthController{
     async registration(req,res){
         try{
+        const models = db.getModels();
         const errors = validationResult(req);
         if (!errors.isEmpty()){
             return res.status(400).json({message:"Ошибка при регистрации",errors});
         }
         let {login,password,photo} = req.body;
         const reg_date = new Date().toLocaleDateString();
-        const candidate = await User.findOne({where:{login:login}})
+        const candidate = await models.User.findOne({where:{login:login}})
         if (candidate){
             return res.status(400).json({message:"Пользователь с таким именем уже существует"});
         }
         password = await bcrypt.hash(password, 10);
-        await User.create({
+        await models.User.create({
             login,
             password,
             reg_date,
@@ -39,8 +39,9 @@ class AuthController{
     }
     async login(req,res){
         try{
+        const models = db.getModels();
         const {login, password} = req.body;
-        const user = await User.findOne({where: {login}});
+        const user = await models.User.findOne({where: {login}});
         if (!user){
            return res.status(400).json({message:"Пользователь с таким именем не зарегистрирован"});
         }
@@ -58,7 +59,8 @@ class AuthController{
     }
     async getUsers(req,res){
         try{
-            const users = await User.findAll();
+            const models = db.getModels();
+            const users = await models.User.findAll();
             console.log(req.user.id);
             res.status(200).json(users);
         }catch(e){

@@ -1,11 +1,11 @@
-import {Run} from '../dbModels.js'
+import db from '../services/db.js'
 class RunController{
     async postRun(req,res){
         try{
-
+            const models = db.getModels();
             const {distance,time} = req.body;
             const date = new Date().toLocaleDateString();
-            await Run.create({
+            await models.Run.create({
                 user_id:req.user.id,
                 distance,
                 time,
@@ -22,14 +22,16 @@ class RunController{
     }
     async getRun(req,res){
       try{
+        const models = db.getModels();
+
           const user_id = req.user.id;
           const {id} = req.body;
           let runs;
           if (id){
-            runs = await Run.findOne({where:{user_id,id}});
+            runs = await models.Run.findOne({where:{user_id,id}});
             }
           else{
-            runs = await Run.findAll({where:{user_id}});
+            runs = await models.Run.findAll({where:{user_id}});
             }
           res.status(200).json(runs);
         }catch(e){
@@ -40,8 +42,10 @@ class RunController{
     }
     async putRun(req,res){
         try{
+            const models = db.getModels();
+
             const {id,distance,time,date} = req.body;
-            await Run.update({distance,time,date},{where:{id}});
+            await models.Run.update({distance,time,date},{where:{id}});
             res.status(200).json({message:"Пробежка была успешно изменена"});
 
         }catch(e){
@@ -52,12 +56,14 @@ class RunController{
     }
     async deleteRun(req,res){
         try{
+            const models = db.getModels();
+
             const {id} = req.body;
-            const findRun = await Run.findOne({where:{id}});
+            const findRun = await models.Run.findOne({where:{id}});
             if (!findRun){
             return res.status(400).json({message:`Пробежки с id = ${id} не существует`});
             }
-            await Run.destroy({where:{id}});
+            await models.Run.destroy({where:{id}});
             res.status(200).json({message:"Удаление произошло успешно"});
         }catch(e){
             console.log(e);
@@ -66,8 +72,10 @@ class RunController{
     }
     async runReport(req,res){
         try{
+            const models = db.getModels();
+
             const user_id = req.user.id;
-            let runs = await Run.findAll({where:{user_id}});
+            let runs = await models.Run.findAll({where:{user_id}});
             runs.sort(function(obj1,obj2){
             const date1 = new Date(obj1.date);
             const date2 = new Date(obj2.date);
