@@ -103,9 +103,9 @@ class RunController{
                 }
                 weekReports.push({
                     Week:`${i + 1}: ${weekStartPoint.toLocaleDateString()} / ${weekEndPoint.toLocaleDateString()}`,
-                    AvSpeed: `${totalDistance/1000/totalTime} km/h`,
-                    AvTime: `${totalTime/runDays} h`,
-                    TotalDistance: `${totalDistance/1000} km`
+                    AvSpeed: totalDistance/1000/totalTime, // km. per h.
+                    AvTime: totalTime/runDays, // h.
+                    TotalDistance: totalDistance/1000 // km.
                 });
                 weekStartPoint = dateAdd(weekEndPoint,1);
                 weekEndPoint = dateAdd(weekEndPoint,8);

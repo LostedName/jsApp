@@ -1,14 +1,8 @@
 import {User} from '../dbModels.js'
 import bcrypt from 'bcrypt'
 import validator from 'express-validator'
-import jwt from 'jsonwebtoken'
-import {secretKey} from '../settings.js'
-const generateAccessToken = (id)=>{
-const payloads = {
-    id
-};
-return jwt.sign(payloads,secretKey, {expiresIn:"1h"});
-};
+import {secretKey} from '../../settings.js'
+import {generateToken} from '../services/jwt.js'
 
 const {validationResult} = validator;
 class AuthController{
@@ -55,7 +49,7 @@ class AuthController{
         if (!isCorrectPass)
         return res.status(400).json({message:"Неверный пароль"});    
 
-        const token = generateAccessToken(user.id);
+        const token = generateToken(user.id);
         res.status(200).json({token});    
 
     }catch(e){

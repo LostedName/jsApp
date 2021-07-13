@@ -1,5 +1,5 @@
 import sequelize from 'sequelize';
-import {dbName,dbUser,dbPass} from './settings.js'
+import {dbName,dbUser,dbPass} from '../settings.js'
 
 
     const seque = new sequelize(dbName, dbUser, dbPass, {
