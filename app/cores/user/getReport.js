@@ -6,8 +6,8 @@ export const getReport = async function(req,res){
         const user_id = req.user.id;
         let runs = await models.Run.findAll({where:{user_id}});
         runs.sort(function(obj1,obj2){
-        const date1 = new Date(obj1.date);
-        const date2 = new Date(obj2.date);
+        const date1 = new Date(reverseDateStr(obj1.date));
+        const date2 = new Date(reverseDateStr(obj2.date));
         return date1-date2;
         });
         const runDates = [];//массив отдельных дат, выбранных с объектов массива runs
