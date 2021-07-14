@@ -1,12 +1,11 @@
 import db from '../../services/db.js';
-export const getUsers = async function(req,res){
+export const getUsers = async function(){
     try{
         const models = db.getModels();
         const users = await models.User.findAll();
-        console.log(req.user.id);
-        res.status(200).json(users);
+        return users;
     }catch(e){
         console.log(e);
-        
+        return {message:"Ошибка при получении данных"};
     }
 }
