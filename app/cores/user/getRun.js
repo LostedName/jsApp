@@ -1,5 +1,5 @@
 import db from '../../services/db.js';
-export const getRun = async function(req,res){
+export const getRun = async function(req){
     try{
       const models = db.getModels();
 
@@ -12,10 +12,10 @@ export const getRun = async function(req,res){
         else{
           runs = await models.Run.findAll({where:{user_id}});
           }
-        res.status(200).json(runs);
+        return runs;
       }catch(e){
           console.log(e);
-        res.status(500).json({message:"При работе сервера возникли неполадки"});
+        return {message:"При работе сервера возникли неполадки"};
 
       }
   }

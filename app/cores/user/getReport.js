@@ -1,8 +1,7 @@
 import db from '../../services/db.js'
-export const getReport = async function(req,res){
+export const getReport = async function(req){
     try{
         const models = db.getModels();
-
         const user_id = req.user.id;
         let runs = await models.Run.findAll({where:{user_id}});
         runs.sort(function(obj1,obj2){
@@ -47,10 +46,10 @@ export const getReport = async function(req,res){
             weekStartPoint = dateAdd(weekEndPoint,1);
             weekEndPoint = dateAdd(weekEndPoint,8);
         }
-        res.status(200).json({weekReports});
+        return {weekReports};
     }catch(e){
         console.log(e);
-        res.status(500).json({message:"Произошла ошибка"});
+        return {message:"Произошла ошибка"};
     }
 }
 
