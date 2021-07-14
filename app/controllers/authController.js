@@ -1,4 +1,3 @@
-import express from 'express';
 import validator from 'express-validator';
 import {authMiddleware} from '../middlewares/authMiddleware.js';
 import {login} from '../cores/auth/login.js';
